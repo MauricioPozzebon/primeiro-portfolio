@@ -77,7 +77,10 @@ enableEmoji = true
       icon      = "github" # icon name without the 'fa-'
       icon_pack = "fab"
       url       = "https://github.com/apreshill/apero"
- 
+  [[params.social]]
+      icon      = "linkedin" # icon name without the 'fa-'
+      icon_pack = "fab"
+      url       = "https://www.linkedin.com/in/mauriciopozzebon"
 
 [taxonomies]
   category = "categories"

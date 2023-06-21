@@ -1,16 +1,16 @@
 ---
-title: "Tachyons for Style"
-subtitle: "A tachyon /ˈtæki.ɒn/ or tachyonic particle is a hypothetical particle that always moves faster than light."
+title: "Modelo simples de NLP"
+subtitle: "Um modelo ensemble simples porém com alta precisão."
 excerpt: "Building this static site generator theme was the first time I used an Atomic (or Functional) CSS system like Tachyons. It’s a design system that provides very small (which means fast) CSS modules that you can use in your HTML."
-date: 2019-07-03
-author: "Eric Anderson"
+date: 2022-07-15
+author: "Mauricio Pozzebon"
 draft: false
 tags:
   - hugo-site
 categories:
-  - Theme Features
-  - R
-  - package
+  - Python
+  - NLP
+  - Machine Learning
 # layout options: single or single-sidebar
 layout: single
 ---

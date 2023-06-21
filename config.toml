@@ -99,12 +99,12 @@ enableEmoji = true
     url = "/blog/"
     weight = 2
   [[menu.header]]
-    name = "Projects"
+    name = "Projetos"
     title = "Project Portfolio"
     url = "/project/"
     weight = 3
   [[menu.header]]
-    name = "Talks"
+    name = "Publicações"
     title = "Talks"
     url = "/talk/"
     weight = 4

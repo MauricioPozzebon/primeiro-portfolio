@@ -9,4 +9,4 @@ headline: |
 ---
 
 <!-- this is a subheadline -->
-Formado em Ciências Econômicas (UFRGS), Mestre e Doutor em Administração de Empresas (UFRGS). Cientista de dados.
+<div style="text-align: justify;">Formado em Ciências Econômicas (UFRGS), Mestre e Doutor em Administração de Empresas (UFRGS). Cientista de dados.</div>

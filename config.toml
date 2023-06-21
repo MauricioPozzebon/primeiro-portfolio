@@ -90,7 +90,7 @@ enableEmoji = true
 [menu]
   [[menu.header]]
     name = "Experiência"
-    title = "About Blogophonic"
+    title = "Experiência"
     url = "/about/"
     weight = 1
   #[[menu.header]]

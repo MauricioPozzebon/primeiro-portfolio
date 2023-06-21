@@ -1,9 +1,9 @@
 ---
-title: A Project Portfolio To Grow
-description: "Give your projects a place to live online."
+title: Portfolio de Projetos
+description: "Ciência de Dados | Machine Learning | Engenharia de dados | BI"
 author: "The R Markdown Team @RStudio"
 show_post_thumbnail: true
-show_author_byline: true
+show_author_byline: false
 show_post_date: false
 # for listing page layout
 layout: list-grid # list, list-sidebar, list-grid

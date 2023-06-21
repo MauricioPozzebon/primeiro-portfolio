@@ -49,7 +49,7 @@
 {{ $number_categories := $page.Params.number_categories | default 0 }}
 {{ if ge $number_categories 1 }}
   <article{{ if .Params.show_outro }} class="bb pb5"{{ end }}>
-  <h5 class="f4 mv4 ttu tracked lh-title bt pv3">Featured categories</h5>
+  <h5 class="f4 mv4 ttu tracked lh-title bt pv3">Categorias</h5>
   {{ range first $number_categories site.Taxonomies.categories.ByCount }}
       <a class="f6 link dim ba ph3 pv2 mb2 dib mr2" href="{{ .Page.RelPermalink }}">{{ .Page.Title }} ({{ .Count }})</a>
   {{ end }}

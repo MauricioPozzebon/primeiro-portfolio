@@ -1,10 +1,10 @@
 ---
 ## Configure page content in wide column
-title: "Experiência Profissional" # leave blank to exclude
+title: "O que tenho feito?" # leave blank to exclude
 number_featured: 1 # pulling from mainSections in config.toml
 number_categories: 1 # set to zero to exclude
 show_intro: true
-intro: Brazilstrat
+intro: Minhas últimas movimentações estão abaixo.
   
 show_outro: false
 outro: |

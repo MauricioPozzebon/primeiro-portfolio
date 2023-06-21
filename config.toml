@@ -76,7 +76,7 @@ enableEmoji = true
   [[params.social]]
       icon      = "github" # icon name without the 'fa-'
       icon_pack = "fab"
-      url       = "https://github.com/apreshill/apero"
+      url       = "https://github.com/mauriciopozzebon"
   [[params.social]]
       icon      = "linkedin" # icon name without the 'fa-'
       icon_pack = "fab"
@@ -116,7 +116,7 @@ enableEmoji = true
     url = "/license/"
     weight = 1
   [[menu.footer]]
-    name = "Contact"
+    name = "Contato"
     title = "Contact form"
     url = "/contact/"
     weight = 2

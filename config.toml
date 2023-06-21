@@ -2,7 +2,7 @@ baseURL = "/"
 theme = "hugo-apero"
 languageCode = "en"
 title = "Portfolio de Mauricio Pozzebon"
-author = "Emily Cooper"
+author = "Mauricio Pozzebon"
 copyright = "" # set to override the auto generated copyright using org info and now year
 googleAnalytics = ""
 disqusShortname = ""
@@ -89,15 +89,15 @@ enableEmoji = true
 
 [menu]
   [[menu.header]]
-    name = "About"
+    name = "Experiência"
     title = "About Blogophonic"
     url = "/about/"
     weight = 1
-  [[menu.header]]
-    name = "Blog"
-    title = "Blog"
-    url = "/blog/"
-    weight = 2
+  #[[menu.header]]
+    #name = "Blog"
+    #title = "Blog"
+    #url = "/blog/"
+    #weight = 2
   [[menu.header]]
     name = "Projetos"
     title = "Project Portfolio"

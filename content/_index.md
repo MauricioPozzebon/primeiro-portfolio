@@ -6,8 +6,8 @@ description: "Aqui você encontra uma parte de meus trabalhos e publicações qu
 date: 2023-06-20T12:18:33-06:00
 images:
   - img/revoir.jpg
-image_left: true
-text_align_left: false
+image_left: false
+text_align_left: true
 show_social_links: true # specify social accounts in site config
 show_action_link: true
 action_link: /about

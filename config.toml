@@ -31,8 +31,10 @@ enableEmoji = true
   orgName = "UFRGS"
   orgLocal = "Porto Alegre"
   description = "Potfolio de projetos de ciência de dados."
-  favicon = "/img/favicon.ico"
-  logo = "/img/blogophonic-mark-dark.png"
+  favicon = "https://img.icons8.com/stickers/100/multicast.png"
+  #favicon = "/img/favicon.ico"
+  logo = "https://img.icons8.com/stickers/100/multicast.png"
+  #logo = "/img/logo.png"
   mainSections = ["project"]
   navallcaps = true
   # show/hide social icons in site header & footer

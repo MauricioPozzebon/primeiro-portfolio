@@ -1,6 +1,6 @@
 ---
 title: "Modelo simples de NLP"
-subtitle: "Um modelo ensemble simples porém com alta precisão."
+subtitle: "Um modelo ensemble simples de alta precisão."
 excerpt: "É possível construir um bom modelo supervisionado de classificação para fins de NLP em poucos passos."
 date: 2022-07-15
 author: "Mauricio Pozzebon"

@@ -1,18 +1,17 @@
 ---
-title: "Palmer Penguins"
-subtitle: ""
+title: "Modelagem de Crédito"
+subtitle: "Engenharia de variáveis para previsão de inadimplência"
 excerpt: "Grid is the very first CSS module created specifically to solve the layout problems we’ve all been hacking our way around for as long as we’ve been making websites."
-date: 2019-07-02
-author: "Eric Anderson"
+date: 2023-06-10
+author: "Mauricio Pozzebon"
 draft: false
 tags:
 - hugo-site
 categories:
-- Theme Features
-- R
-- package
+- Python
+- Machine Learning
 # layout options: single or single-sidebar
-layout: single-sidebar
+layout: single
 links:
 - icon: door-open
   icon_pack: fas
@@ -30,13 +29,15 @@ links:
 
 {{< here >}}
 
-### “Grid is the very first CSS module created specifically to solve the layout problems we've all been hacking our way around for as long as we've been making websites.”
+### Tão importante quanto a disponibilidade de crédito é a capacidade de prever um possível *default*
 
-*— [Chris House, A Complete Guide to CSS Grid Layout](http://chris.house/blog/a-complete-guide-css-grid-layout/)* [^1]
+
 
 ---
 
-Since I began building websites in Y2K, I've lost count how many times the phrase "...there's got to be a better way to do this" has passed my lips. Most times, while fighting with floats and widths of content and sidebars or just basically trying to get something beside something else without using a stupid `TABLE`.
+### Quais as pistas da inadimplência?
+
+Prever **inadimplência** é um problema clássico nas instituições de crédito, ainda mais quando não se tem informações históricas a respeito do cliente. Como saber se aquele cliente novo não dará o "calote"?   
 
 Well, technology sure has come a long way since slicing up images to match the table-based layout that was just created in Dreamweaver. You'd be surprised (or maybe you wouldn't) how challenging the standard header, content, sidebar, footer layout could be to actually get right.
 
@@ -44,7 +45,7 @@ Well, technology sure has come a long way since slicing up images to match the t
 
 ---
 
-### <dfn title="Ermahgerd is a humorous version of the phrase oh my god, written as though pronounced with a heavy influence of extra Rs. It's meant to imitate the sound of someone speaking through a retainer.">ERMAHGERD</dfn>
+### Código
 
 A proper grid is what we always wanted, no ... _needed_ to build websites with a solid, unbreakable structure. And that's why I used it in this theme. I call this feature a "scaffold" because none of the _content_ is laid out on this grid. Only the main _structure_: consisting of the `header`, `footer`, `main`, `aside`, and `footer`. As you can tell by this quote from the [W3C](https://www.w3.org/TR/css-grid-1/) on the candidate recommendation itself, Grid is the perfect tool for the job:
 

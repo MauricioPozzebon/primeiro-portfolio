@@ -6,7 +6,7 @@ date: 2022-07-15
 author: "Mauricio Pozzebon"
 draft: false
 tags:
-  - hugo-site
+  - NLP
 categories:
   - Python
   - NLP

@@ -13,23 +13,16 @@ categories:
 # layout options: single or single-sidebar
 layout: single
 links:
-- icon: door-open
-  icon_pack: fas
-  name: website
-  url: https://allisonhorst.github.io/palmerpenguins/
 - icon: github
   icon_pack: fab
   name: code
   url: https://github.com/allisonhorst/palmerpenguins/
-- icon: newspaper
-  icon_pack: far
-  name: Blog post
-  url: https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/
+
 ---
 
-{{< here >}}
+<!--{{< here >}}-->
 
-### Tão importante quanto a disponibilidade de crédito é a capacidade de prever um possível *default*
+### Tão importante quanto a disponibilidade de crédito é a capacidade de prever um possível *default* e ter as provisões necessárias para tal.
 
 
 
@@ -37,9 +30,11 @@ links:
 
 ### Quais as pistas da inadimplência?
 
-Prever **inadimplência** é um problema clássico nas instituições de crédito, ainda mais quando não se tem informações históricas a respeito do cliente. Como saber se aquele cliente novo não dará o "calote"?   
+Prever **inadimplência** é um problema clássico nas instituições de crédito, ainda mais quando não se tem informações históricas a respeito do cliente. Como saber se um cliente novo não dará "calote"?   
 
-Well, technology sure has come a long way since slicing up images to match the table-based layout that was just created in Dreamweaver. You'd be surprised (or maybe you wouldn't) how challenging the standard header, content, sidebar, footer layout could be to actually get right.
+Este projeto desenvolve um modelo de previsão de inadimplência a partir da exploração e engenharia de variáveis de duas *databases* de empréstimos anonimizados. O modelo então é utilizado para prever o *default* em uma lista de clientes **futuros**.
+
+Meu *machine learning pipeline*: importar datasets &#x2192; inspeção &#x2192; preprocessamento &#x2192; análise exploratória &#x2192; modelagem &#x2192; avaliação &#x2192; previsão.
 
 {{< figure src="css-grid-cover.png" alt="Traditional right sidebar layout" caption="A visual example of the traditional right sidebar layout" >}}
 

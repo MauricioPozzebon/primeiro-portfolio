@@ -1,5 +1,5 @@
 ---
-title: "Modelo simples de NLP"
+title: "Processamento de Linguagem Natural"
 subtitle: "Um modelo ensemble simples de alta precisão."
 excerpt: "É possível construir um bom modelo supervisionado de classificação para fins de NLP em poucos passos."
 date: 2022-07-15
@@ -113,7 +113,7 @@ O que realmente estamos interessados é em classificar **novos** artigos. Com um
 
 ```python
 classe = input("texto: ")
-data = vectorizer.transform([class_prediction]).toarray()
+data = vectorizer.transform([classe]).toarray()
 prediction_output = stacked_model.predict(data)
 print(prediction_output)
 

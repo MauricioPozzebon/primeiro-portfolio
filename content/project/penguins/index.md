@@ -87,7 +87,7 @@ def flag(x):
 base_cadastral['FLAG'] = base_cadastral['FLAG_PF'].apply(lambda x: flag(x))
 base_cadastral.drop(columns='FLAG_PF', inplace = True)
 ```
-Agora é necessário tratar `DDD`,`SEGMENTO_INDUSTRIAL` e `PORTE`.
+Agora é necessário tratar `DDD`,`SEGMENTO_INDUSTRIAL`, `PORTE` e `CEP_2_DIG`.
 
 Começando pelo `PORTE`, as categorias são vistas em:
 
@@ -107,7 +107,7 @@ Apliquei a mesma lógica para `SEGMENTO_INDUSTRIAL`:
 
 ```python
 def substituir_nulos(df):
-    base_treino['SEGMENTO_INDUSTRIAL'].fillna('seg_indefinido', inplace=True)
+    base_cadastral['SEGMENTO_INDUSTRIAL'].fillna('seg_indefinido', inplace=True)
     return base_cadastral
 
 base_cadastral = substituir_nulos(base_cadastral)
@@ -116,7 +116,7 @@ Por fim, da mesma forma, tratamos a coluna `DDD`:
 
 ```python
 def substituir_nulos(df):
-    base_treino['DDD'].fillna('ddd_indefinido', inplace=True)
+    base_cadastral['DDD'].fillna('ddd_indefinido', inplace=True)
     return base_cadastral
 
 base_cadastral = substituir_nulos(base_cadastral)

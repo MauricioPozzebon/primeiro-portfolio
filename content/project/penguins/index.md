@@ -112,7 +112,7 @@ def substituir_nulos(df):
 
 base_cadastral = substituir_nulos(base_cadastral)
 ```
-Por fim, da mesma forma, tratamos a coluna `DDD`:
+Da mesma forma, tratamos a coluna `DDD`:
 
 ```python
 def substituir_nulos(df):
@@ -122,6 +122,15 @@ def substituir_nulos(df):
 base_cadastral = substituir_nulos(base_cadastral)
 ```
 
+Por fim, a coluna `CEP_2_DIG`:
+
+```python
+def substituir_nulos(df):
+    base_cadastral['CEP_2_DIG'].fillna('cep_indefinido', inplace=True)
+    return base_cadastral
+
+base_cadastral = substituir_nulos(base_cadastral)
+```
 
 
 

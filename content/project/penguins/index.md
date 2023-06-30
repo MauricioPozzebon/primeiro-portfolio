@@ -211,6 +211,28 @@ Agora podemos partir para a **análise exploratória**.
 
 ### Análise Exploratória
 
+```python
+import matplotlib.pyplot as plt
+
+# Calcular a contagem de inadimplentes e classificar em ordem decrescente
+contagem_inadimplentes = base_treino['INADIMPLENTE'].value_counts()
+
+plt.figure(figsize=(6, 2))
+
+# Criar o gráfico de barras horizontais
+plt.barh(contagem_inadimplentes.index[::-1], contagem_inadimplentes.values[::-1], color='gray', height=0.3)
+plt.title('Número de Operações')
+
+# Definir os valores e rótulos do eixo Y
+plt.yticks([0, 1], ['Adimplentes (0)', 'Inadimplentes (1)'])
+
+# Inverter a ordem dos valores no eixo Y
+plt.gca().invert_yaxis()
+
+plt.show()
+```
+
+
 
 
 

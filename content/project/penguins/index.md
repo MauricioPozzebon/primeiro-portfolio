@@ -36,7 +36,7 @@ Este projeto desenvolve um modelo de previsão de inadimplência a partir da exp
 
 Meu *machine learning pipeline*: importar datasets &#x2192; inspeção &#x2192; preprocessamento &#x2192; análise exploratória &#x2192; modelagem &#x2192; avaliação &#x2192; previsão.
 
-{{< figure src="css-grid-cover.png" alt="Traditional right sidebar layout" caption="A visual example of the traditional right sidebar layout" >}}
+<!--{{< figure src="css-grid-cover.png" alt="Traditional right sidebar layout" caption="A visual example of the traditional right sidebar layout" >}}-->
 
 ---
 
@@ -131,12 +131,58 @@ def substituir_nulos(df):
 
 base_cadastral = substituir_nulos(base_cadastral)
 ```
+Agora vamos transformaros valores de `DDD`e `CEP_2_DIG` em categorias (regiões e Estado respectivamente):
 
+```python
+def regiao(ddd):
+    if ddd in ['61']:
+        return 'Centro-Oeste'
+    elif ddd in ['62', '64', '65', '66', '67']:
+        return 'Centro-Oeste'
+    elif ddd in ['82']:
+        return 'Nordeste'
+    elif ddd in ['71', '73', '74', '75', '77', '85', '88', '98', '99', '83', '81', '87', '86', '89', '84', '79']:
+        return 'Nordeste'
+    elif ddd in ['68', '96', '92', '97', '91', '93', '94', '69', '95', '63']:
+        return 'Norte'
+    elif ddd in ['27', '28', '31', '32', '33', '34', '35', '37', '38', '21', '22', '24', '11', '12', '13', '14', '15', '16', '17', '18', '19']:
+        return 'Sudeste'
+    elif ddd in ['41', '42', '43', '44', '45', '46', '51', '53', '54', '55', '47', '48', '49']:
+        return 'Sul'
+    else:
+        return 'DDD inválido'
 
+base_cadastral['REGIAO'] = base_cadastral['DDD'].apply(regiao)
+```
+```python
+def cep(x):
+    if x.startswith('0'):
+        return 'São Paulo'
+    elif x.startswith('1'):
+        return 'Interior de São Paulo'
+    elif x.startswith('2'):
+        return 'Rio de Janeiro ou Espírito Santo'
+    elif x.startswith('3'):
+        return 'Minas Gerais'
+    elif x.startswith('4'):
+        return 'Bahia ou Sergipe'
+    elif x.startswith('5'):
+        return 'Pernambuco, Alagoas, Rio Grande do Norte ou Paraíba'
+    elif x.startswith('6'):
+        return 'Maranhão, Acre, Pará, Amapá, Roraima, Ceará ou Amazonas'
+    elif x.startswith('7'):
+        return 'Mato Grosso do Sul, Tocantins, Mato Grosso, Goiás, Rondônia ou Distrito Federal'
+    elif x.startswith('8'):
+        return 'Paraná ou Santa Catarina'
+    elif x.startswith('9'):
+        return 'Rio Grande do Sul'
+    else:
+        return 'Região não identificada'
 
+base_cadastral['CEP'] = base_cadastral['CEP_2_DIG'].apply(cep)
+```
 
-
-Vemos que a base de treino é pobre em termos de informações individuais. Sendo assim, vamos fundir com as informações cadastrais e "enriquecer" o *dataset* de treino para cada cliente (`ID_CLIENTE`). Em seguida, excluir os dados de cadastro sem correspondência:
+Vimos que a base de treino é pobre em termos de informações individuais. Sendo assim, vamos fundi-la com as informações cadastrais e "enriquecer" o *dataset* de treino para cada cliente (`ID_CLIENTE`). Em seguida, excluir os dados de cadastro sem correspondência:
 
 ```python
 base_treino = pd.merge(base_pagamentos_desenvolvimento,base_cadastral,on=['ID_CLIENTE'], how='outer')
@@ -147,12 +193,28 @@ Uma olhada nos dados faltantes agora na base de treino completa:
 ```python
 print(base_treino.isna().sum())
 ```
-Podemos excluir as colunas que com certeza **não** usaremos no modelo(`ID_CLIENTE` e `DOMINIO_EMAIL`):
+Temos nulos apenas no domínio de e-mail, uma informação irrelevante para o problema. Agora Podemos excluir as colunas que com certeza **não** usaremos no modelo(`ID_CLIENTE` e `DOMINIO_EMAIL`):
 
 ```python
 base_treino.drop(columns=['ID_CLIENTE', 'DOMINIO_EMAIL'], inplace = True)
 ```
 
+Vamos identificar os inadimplentes a partir do critério dado na documentação (pagamento atrasado em mais de 5 dias), atribuindo o valor 1 ou 0:
+
+```python
+base_treino['DATA_PAGAMENTO'] = pd.to_datetime(base_treino['DATA_PAGAMENTO'])
+base_treino['DATA_VENCIMENTO'] = pd.to_datetime(base_treino['DATA_VENCIMENTO'])
+
+base_treino['INADIMPLENTE'] = np.where((base_treino['DATA_PAGAMENTO'] - base_treino['DATA_VENCIMENTO']).dt.days >= 5, 1, 0)
+```
+Agora podemos partir para a **análise exploratória**.
+
+### Análise Exploratória
+
+
+
+
+<!--
 > ##### CSS Grid Layout Module
 >
 > This CSS module defines a two-dimensional grid-based layout system, optimized for user interface design. In the grid layout model, the children of a grid container can be positioned into arbitrary slots in a predefined flexible or fixed-size layout grid.
@@ -169,6 +231,6 @@ CSS Grid is a total game changer, IMHO. Compared to the bottomless pit of despai
 }
 ```
 
-#### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.
+#### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.-->
 
 [^1]: The original article cited here is now updated and maintained by the staff over at CSS-Tricks. Bookmark their version if you want to dive in and learn about CSS Grid: [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)

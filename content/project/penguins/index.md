@@ -75,22 +75,6 @@ print(base_cadastral.isna().sum())
 
 Conclusão, todos os valores nulos pertencem à base cadastral.
 
-Vemos que a base de treino é pobre em termos de informações individuais. Sendo assim, vamos fundir com as informações cadastrais e "enriquecer" o *dataset* de treino para cada cliente (`ID_CLIENTE`). Em seguida, excluir os dados de cadastro sem correspondência:
-
-```python
-base_treino = pd.merge(base_pagamentos_desenvolvimento,base_cadastral,on=['ID_CLIENTE'], how='outer')
-base_treino.drop(base_treino.index[77414:], inplace=True)
-```
-Uma olhada nos dados faltantes agora na base completa:
-
-```python
-print(base_treino.isna().sum())
-```
-Antes de trabalhar os valores nulos podemos excluir as colunas que com certeza **não** usaremos no modelo(`ID_CLIENTE` e `DOMINIO_EMAIL`):
-
-```python
-base_treino.drop(columns=['ID_CLIENTE', 'DOMINIO_EMAIL'], inplace = True)
-```
 A documentação da base indica que `FLAG_PF = X` se pesoa física e `FLAG_PF = NaN` se pessoa jurídica. Portanto:
 
 ```python
@@ -100,10 +84,65 @@ def flag(x):
     else:
         return 'PJ'
 
-base_treino['FLAG'] = base_treino['FLAG_PF'].apply(lambda x: flag(x))
-base_treino.drop(columns='FLAG_PF', inplace = True)
+base_cadastral['FLAG'] = base_cadastral['FLAG_PF'].apply(lambda x: flag(x))
+base_cadastral.drop(columns='FLAG_PF', inplace = True)
 ```
 Agora é necessário tratar `DDD`,`SEGMENTO_INDUSTRIAL` e `PORTE`.
+
+Começando pelo `PORTE`, as categorias são vistas em:
+
+```python
+base_cadastral['PORTE'].value_counts()
+```
+Vamos criar uma nova categoria `indefinido`:
+
+```python
+def substituir_nulos(df):
+    base_cadastral['PORTE'].fillna('indefinido', inplace=True)
+    return base_cadastral
+
+base_cadastral = substituir_nulos(base_cadastral)
+```
+Apliquei a mesma lógica para `SEGMENTO_INDUSTRIAL`:
+
+```python
+def substituir_nulos(df):
+    base_treino['SEGMENTO_INDUSTRIAL'].fillna('seg_indefinido', inplace=True)
+    return base_cadastral
+
+base_cadastral = substituir_nulos(base_cadastral)
+```
+Por fim, da mesma forma, tratamos a coluna `DDD`:
+
+```python
+def substituir_nulos(df):
+    base_treino['DDD'].fillna('ddd_indefinido', inplace=True)
+    return base_cadastral
+
+base_cadastral = substituir_nulos(base_cadastral)
+```
+
+
+
+
+
+
+Vemos que a base de treino é pobre em termos de informações individuais. Sendo assim, vamos fundir com as informações cadastrais e "enriquecer" o *dataset* de treino para cada cliente (`ID_CLIENTE`). Em seguida, excluir os dados de cadastro sem correspondência:
+
+```python
+base_treino = pd.merge(base_pagamentos_desenvolvimento,base_cadastral,on=['ID_CLIENTE'], how='outer')
+base_treino.drop(base_treino.index[77414:], inplace=True)
+```
+Uma olhada nos dados faltantes agora na base de treino completa:
+
+```python
+print(base_treino.isna().sum())
+```
+Podemos excluir as colunas que com certeza **não** usaremos no modelo(`ID_CLIENTE` e `DOMINIO_EMAIL`):
+
+```python
+base_treino.drop(columns=['ID_CLIENTE', 'DOMINIO_EMAIL'], inplace = True)
+```
 
 > ##### CSS Grid Layout Module
 >

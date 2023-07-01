@@ -1,7 +1,7 @@
 ---
 title: "Modelagem de Crédito"
 subtitle: "Engenharia de variáveis para previsão de inadimplência"
-excerpt: "Grid is the very first CSS module created specifically to solve the layout problems we’ve all been hacking our way around for as long as we’ve been making websites."
+excerpt: "Previsão de inadimplência com engenharia de variáveis e aprendizado de máquina."
 date: 2023-06-10
 author: "Mauricio Pozzebon"
 draft: false

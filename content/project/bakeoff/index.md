@@ -1,37 +1,32 @@
 ---
-title: "Bakeoff"
-subtitle: "An R Package"
-excerpt: "This theme has a form-to-email feature built in, thanks to the simple Formspree integration. All you need to activate the form is a valid recipient email address saved in the form front matter."
-date: 2019-07-01
-author: "Eric Anderson"
+title: "Um ChatGPT para chamar de seu"
+subtitle: "Como ter um gêmeo do ChatGPT para rodar offline e de forma privada"
+excerpt: "Um ChatGPT offline e privado diretamente no seu PC "
+date: 2023-05-01
+author: "Mauricio Pozzebon"
 draft: false
 tags:
   - hugo-site
 categories:
-  - Theme Features
-  - R
-  - package
+  - Python
+  - LLM
 layout: single
 links:
-- icon: door-open
-  icon_pack: fas
-  name: website
-  url: https://bakeoff.netlify.com/
 - icon: github
   icon_pack: fab
   name: code
   url: https://github.com/apreshill/bakeoff
 ---
 
-{{< here >}}
+<!--{{< here >}}-->
 
-![Formspree Logo](formspree-logo.png)
+<!--![Formspree Logo](formspree-logo.png)-->
 
-## [Formspree](https://formspree.io) makes it easy to receive submissions from HTML forms on your static website.
+## Large Language Models (LLM) já se popularizaram a ponto de ser possível ter um em casa.
 
 ---
 
-### Functional Form
+### Os LLM's
 
 This theme has a **form-to-email** feature built in, thanks to the simple Formspree integration. All you need to activate the form is a valid recipient email address saved in the front matter of the form
 (`/content/forms/contact.md`). Of course, the example shown below (`your@email.here`) must not be used. Please use your actual email address.

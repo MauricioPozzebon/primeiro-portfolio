@@ -1,8 +1,8 @@
 ---
 ## Configure page content in wide column
 title: "O que tenho feito?" # leave blank to exclude
-number_featured: 1 # pulling from mainSections in config.toml
-number_categories: 1 # set to zero to exclude
+number_featured: 2 # pulling from mainSections in config.toml
+number_categories: 2 # set to zero to exclude
 show_intro: true
 intro: Minhas últimas movimentações estão abaixo.
   

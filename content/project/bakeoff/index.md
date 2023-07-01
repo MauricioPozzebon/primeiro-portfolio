@@ -1,7 +1,7 @@
 ---
 title: "Um ChatGPT para chamar de seu"
 subtitle: "Como ter um gêmeo do ChatGPT para rodar offline e de forma privada"
-excerpt: "Um ChatGPT offline e privado diretamente no seu PC "
+excerpt: "Criando um ChatGPT offline e privado para uso local."
 date: 2023-05-01
 author: "Mauricio Pozzebon"
 draft: false

@@ -1,8 +1,8 @@
 ---
-title: Talks that Last
+title: Publicações
 description: |
-  This is a list for your talks, workshops, or other events with a time, date, and place.
-author: "The R Markdown Team @RStudio"
+  Aqui estão (quase) todas minhas publicações acadêmicas até o momento.
+author: "LIMA, Mauricio P. e outros"
 show_post_thumbnail: true
 show_author_byline: true
 show_post_date: true

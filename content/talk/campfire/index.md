@@ -1,7 +1,7 @@
 ---
-title: "A campfire"
-subtitle: "Testing"
-excerpt: "Here is a talk I gave on making awesome personal websites using Hugo, blogdown, GitHub, and Netlify."
+title: "Artigo"
+subtitle: "o que é"
+excerpt: "Resumo do artigo."
 date: 2021-01-12
 date_end: "2021-01-13"
 show_post_time: false
@@ -19,10 +19,7 @@ links:
   icon_pack: fas
   name: website
   url: https://bakeoff.netlify.com/
-- icon: github
-  icon_pack: fab
-  name: code
-  url: https://github.com/apreshill/bakeoff
+
 ---
 
 {{< here >}}

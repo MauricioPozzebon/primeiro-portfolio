@@ -2,7 +2,7 @@
 title: Publicações
 description: |
   Aqui estão (quase) todas minhas publicações acadêmicas até o momento.
-author: "LIMA, Mauricio P. e outros"
+author: "LIMA, Mauricio P. e outros."
 show_post_thumbnail: true
 show_author_byline: true
 show_post_date: true

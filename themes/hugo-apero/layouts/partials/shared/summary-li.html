@@ -34,14 +34,14 @@
 
         <div class="w-100 w-80-ns pl3-ns">
         <p class="measure lh-copy cf">{{ if .Params.Excerpt }}{{ .Params.Excerpt | markdownify }}{{ else }}{{ .Summary | markdownify }}</p>{{ end }}
-          <a href="{{ .RelPermalink }}">Read more</a></p>
+          <a href="{{ .RelPermalink }}">Ler mais</a></p>
         </div>
     </article>
   {{ end }} <!--end range across grouped pages-->
 
   {{ with $section }}
       <div class="tr">
-        <span class="f5 pv4 tr ttu tracked"><a href="{{ .RelPermalink }}" class="dim no-underline">See all &rarr;</a></span>
+        <span class="f5 pv4 tr ttu tracked"><a href="{{ .RelPermalink }}" class="dim no-underline">Ver todos &rarr;</a></span>
       </div>
   {{ end }}
 {{ end }}

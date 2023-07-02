@@ -1,7 +1,7 @@
 ---
 title: "Engenharia de dados + BI"
 subtitle: "Em construção."
-excerpt: "Em contrução."
+excerpt: "Em construção."
 date: 2023-07-01
 author: "Mauricio Pozzebon"
 draft: false

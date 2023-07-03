@@ -367,7 +367,7 @@ plt.show()
 ```
 ![cep](cep.png)
 
-Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões).O CEP não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
+Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões). O CEP não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
 
 ```python
 contagem_inadimplentes = base_treino['INADIMPLENTE'].value_counts()
@@ -377,7 +377,7 @@ plt.figure(figsize=(6, 2))
 plt.barh(contagem_inadimplentes.index[::-1], contagem_inadimplentes.values[::-1], color='gray', height=0.3)
 plt.title('Número de Operações')
 
-plt.yticks([0, 1], ['Adimplentes (0)', 'Inadimplentes (1)'])
+plt.yticks([0, 1], ['Adimplentes (93%)', 'Inadimplentes (7%)'])
 
 plt.gca().invert_yaxis()
 
@@ -386,7 +386,51 @@ plt.show()
 
 ![Número de transações em default](default.png)
 
-O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são desbalanceados (muito desproporcionais).
+O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são desbalanceados (muito desproporcionais). É necessário pensar como tratá-los antes de treinar o modelo.
+
+### Pré processamento
+
+De cara optei por elimiar as observações (linhas) com `CEP` não identificado:
+
+```python
+base_treino = base_treino.drop(base_treino[base_treino['CEP'] == 'Região não identificada'].index)
+```
+
+Excluí os *outliers* pelo critério padrão de box-plot:
+
+```python
+Q1 = np.percentile(base_treino['VALOR_A_PAGAR'], 25)
+Q3 = np.percentile(base_treino['VALOR_A_PAGAR'], 75)
+IQR = Q3 - Q1
+limite_inferior = Q1 - 1.5 * IQR
+limite_superior = Q3 + 1.5 * IQR
+
+outliers = base_treino[(base_treino['VALOR_A_PAGAR'] < limite_inferior) | (base_treino['VALOR_A_PAGAR'] > limite_superior)]
+
+base_treino_sem_outliers = base_treino.drop(outliers.index)
+
+numero_outliers = len(outliers)
+print(f"Número de outliers removidos: {numero_outliers}")
+```
+No caso foram removidos 4125 linhas. Uma rápida olhada no box-plot atualizado:
+
+![box-novo](box-novo.png)
+
+Podemos ver que está mais equilibrado. É necessário criar dummies para as categorias que foram criadas anteriormente para cada variável e excluir as colunas tratadas:
+
+```python
+colunas_dummy = ['SEGMENTO_INDUSTRIAL', 'PORTE', 'FLAG', 'REGIAO', 'CEP']
+
+dummy_variables = pd.get_dummies(base_treino_sem_outliers[colunas_dummy])
+
+base_treino_sem_outliers = pd.concat([base_treino_sem_outliers, dummy_variables], axis=1)
+
+base_treino_sem_outliers.drop(columns=colunas_dummy, inplace=True)
+```
+
+### Treinar o modelo
+
+Antes de escolher quais variáveis vamos incluir, podemos olhar a correlação para ter uma ideia do que está mais relacionado com a variável alvo (inadimplência):
 
 
 <!--

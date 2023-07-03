@@ -131,7 +131,10 @@ def substituir_nulos(df):
 
 base_cadastral = substituir_nulos(base_cadastral)
 ```
-Agora vamos transformaros valores de `DDD`e `CEP_2_DIG` em categorias (regiões e Estado respectivamente):
+
+### Engenharia de variáveis
+
+Vamos transformaros valores de `DDD`e `CEP_2_DIG` em categorias (regiões e Estado respectivamente) para que assim possam ser utilizadas como variáveis pelo modelo:
 
 ```python
 def regiao(ddd):
@@ -188,18 +191,19 @@ Vimos que a base de treino é pobre em termos de informações individuais. Send
 base_treino = pd.merge(base_pagamentos_desenvolvimento,base_cadastral,on=['ID_CLIENTE'], how='outer')
 base_treino.drop(base_treino.index[77414:], inplace=True)
 ```
+
 Uma olhada nos dados faltantes agora na base de treino completa:
 
 ```python
 print(base_treino.isna().sum())
 ```
-Temos nulos apenas no domínio de e-mail, uma informação irrelevante para o problema. Agora Podemos excluir as colunas que com certeza **não** usaremos no modelo(`ID_CLIENTE` e `DOMINIO_EMAIL`):
+Temos nulos apenas no domínio de e-mail (`DOMINIO_EMAIL`), uma informação irrelevante para o problema. Agora Podemos excluí-la.
 
 ```python
-base_treino.drop(columns=['ID_CLIENTE', 'DOMINIO_EMAIL'], inplace = True)
+base_treino.drop(columns=['DOMINIO_EMAIL'], inplace = True)
 ```
 
-Vamos identificar os inadimplentes a partir do critério dado na documentação (pagamento atrasado em mais de 5 dias), atribuindo o valor 1 ou 0:
+Identificamos os inadimplentes a partir do critério dado na documentação (pagamento atrasado em mais de 5 dias), atribuindo o valor 1 ou 0:
 
 ```python
 base_treino['DATA_PAGAMENTO'] = pd.to_datetime(base_treino['DATA_PAGAMENTO'])
@@ -207,9 +211,69 @@ base_treino['DATA_VENCIMENTO'] = pd.to_datetime(base_treino['DATA_VENCIMENTO'])
 
 base_treino['INADIMPLENTE'] = np.where((base_treino['DATA_PAGAMENTO'] - base_treino['DATA_VENCIMENTO']).dt.days >= 5, 1, 0)
 ```
+
 Agora podemos partir para a **análise exploratória**.
 
-### Análise Exploratória
+### Análise Exploratória (EDA)
+
+A proporção de empréstimos por mês pode indicar alguma sazonalidade:
+
+```python
+import calendar
+import matplotlib.pyplot as plt
+
+contagem_mes = base_treino['MES'].value_counts()
+
+nomes_meses = [calendar.month_name[mes] for mes in contagem_mes.index]
+
+fig, ax = plt.subplots()
+contagem_mes.plot.pie(labels=nomes_meses, autopct='%1.1f%%', ax=ax)
+plt.axis('equal') 
+
+plt.title('Número de operações por mês', pad=20)
+ax.set_ylabel(None)
+plt.show()
+```
+![Operações por mês](mes.png)
+
+O número de operações está bem distribuida durante os anos. Em relação às taxas aplicadas, a maioria foi de 5,99 e 6,99%:
+
+```python
+contagem_taxa = base_treino['TAXA'].value_counts()
+
+plt.pie(contagem_taxa, labels=None, autopct='%1.1f%%')
+
+plt.axis('equal')
+
+plt.title('Taxas de Empréstimo')
+
+plt.legend(contagem_taxa.index, loc='center left', bbox_to_anchor=(1, 0.5))
+
+plt.show()
+```
+![Taxa](taxas.png)
+
+Em relação ao valor do empréstimos, o box-plot de `VALOR_A_PAGAR` indica que existem valores discrepantes:
+
+```python
+media = np.mean(base_treino['VALOR_A_PAGAR'])
+
+plt.boxplot(base_treino['VALOR_A_PAGAR'])
+
+plt.text(1.1, media, f'Média = {media:.2f}', color='b')
+
+plt.ylabel('Valor a Pagar')
+
+plt.title('Boxplot - Valor a Pagar')
+
+plt.legend()
+plt.show()
+```
+
+
+![box](box.png)
+
+Será necessário tratar os *outliers* posteriormente.
 
 ```python
 import matplotlib.pyplot as plt

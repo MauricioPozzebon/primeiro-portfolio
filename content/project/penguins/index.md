@@ -253,7 +253,7 @@ plt.show()
 ```
 ![Taxa](taxas.png)
 
-Em relação ao valor do empréstimos, o box-plot de `VALOR_A_PAGAR` indica que existem valores discrepantes:
+Em relação ao valor do empréstimos, o box-plot de `VALOR_A_PAGAR` está muito achatado, indicando que existem valores discrepantes:
 
 ```python
 media = np.mean(base_treino['VALOR_A_PAGAR'])
@@ -273,11 +273,103 @@ plt.show()
 
 ![box](box.png)
 
-Será necessário tratar os *outliers* posteriormente.
+Será necessário tratar os *outliers* posteriormente. Em relação aos segmentos, a maioria está no setor de serviços:
 
 ```python
-import matplotlib.pyplot as plt
+contagem_segmento = base_treino['SEGMENTO_INDUSTRIAL'].value_counts()
 
+plt.pie(contagem_segmento, labels=None, autopct='%1.1f%%', colors=plt.cm.Set3.colors)
+
+plt.axis('equal')
+
+plt.title('Segmento Industrial')
+
+plt.legend(contagem_segmento.index, loc='center left', bbox_to_anchor=(1, 0.5))
+
+plt.show()
+```
+![Segmento](segmento.png)
+
+O número de operações efetuadas por em segmentos indefinidos representa apenas 1,8% de tal forma que podemos pensar em eliminá-las da base.Em relação ao porte, temos número similar de empresas de grande e médio porte, e menos pequenas empresas:
+
+```python
+contagem_porte = base_treino['PORTE'].value_counts()
+
+plt.pie(contagem_porte, labels=None, autopct='%1.1f%%', colors=plt.cm.Set3.colors)
+
+plt.axis('equal')
+plt.title('Porte')
+
+plt.legend(contagem_porte.index, loc='center left', bbox_to_anchor=(1, 0.5))
+plt.show()
+```
+
+![Porte](porte.png)
+
+As operações relacionadas com porte indefinido representam apenas 3,2% mas ainda assim podem tender para algum lado (por exemplo, falhas sistemáticas no cadastro). Deve-se avaliar melhor o caso de eliminá-las.Fica claro também que a esmagadora maioria são operações de pessoas jurídicas:
+
+```python
+contagem_flag = base_treino['FLAG'].value_counts()
+
+plt.pie(contagem_flag, labels=None, autopct='%1.1f%%', colors=plt.cm.Set3.colors)
+
+plt.axis('equal')
+plt.title('PF e PJ')
+
+
+plt.legend(contagem_flag.index, loc='center left', bbox_to_anchor=(1, 0.5))
+plt.show()
+```
+![Flag](pf.png)
+
+Ainda que o número de transações seja irrisório, não se pode excluir uma característica tão relevante no mercado de empréstimos. Existe uma ampla predominância da região sudeste, provavelmente pela alta atividade econômica nessa região:
+
+```python
+contagem_regiao = base_treino['REGIAO'].value_counts()
+
+percentual_regiao = contagem_regiao / contagem_regiao.sum() * 100
+
+plt.figure(figsize=(12, 3))
+
+plt.barh(contagem_regiao.index, percentual_regiao.values, color=plt.cm.Set2.colors)
+
+plt.gca().invert_yaxis()
+
+for i, v in enumerate(percentual_regiao.values):
+    plt.text(v, i, f'{v:.1f}%', color='black', va='center')
+
+plt.title('Distribuição por Região')
+plt.xlabel('Percentual')
+plt.show()
+```
+![Região](regiao.png)
+
+O `CEP` também pode nos dar noção dos estados com maior número de operações:
+
+```python
+contagem_cep = base_treino['CEP'].value_counts()
+
+plt.figure(figsize=(12, 10))
+
+plt.barh(contagem_cep.index, contagem_cep.values, color=plt.cm.Set2.colors)
+
+plt.gca().invert_yaxis()
+
+plt.title('Operações por Estado')
+
+plt.xlabel('Contagem')
+
+for i, v in enumerate(contagem_cep.values):
+    percentual = v / contagem_cep.sum() * 100
+    plt.text(v + 3, i, f'{percentual:.1f}%', color='black', va='center')
+
+plt.show()
+```
+![cep](cep.png)
+
+Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões).O CEP não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
+
+```python
 contagem_inadimplentes = base_treino['INADIMPLENTE'].value_counts()
 
 plt.figure(figsize=(6, 2))
@@ -292,8 +384,9 @@ plt.gca().invert_yaxis()
 plt.show()
 ```
 
-![Número de transações em default](inadimplentes.png)
+![Número de transações em default](default.png)
 
+O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são desbalanceados (muito desproporcionais).
 
 
 <!--

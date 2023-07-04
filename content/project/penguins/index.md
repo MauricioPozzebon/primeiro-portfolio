@@ -19,16 +19,16 @@ links:
   url: https://github.com/allisonhorst/palmerpenguins/
 
 ---
+<style>body {text-align: justify}</style>
 
 <!--{{< here >}}-->
 
 ### Tão importante quanto a disponibilidade de crédito é a capacidade de prever um possível *default* e assim ter as provisões necessárias para tal.
 
-
-
 ---
 
 ### Quais as pistas da inadimplência?
+
 
 Prever **inadimplência** é um problema clássico nas instituições de crédito, ainda mais quando não se tem informações históricas a respeito do cliente. Como saber se um cliente novo não dará "calote"?   
 
@@ -134,7 +134,7 @@ base_cadastral = substituir_nulos(base_cadastral)
 
 ### Engenharia de variáveis
 
-Vamos transformaros valores de `DDD`e `CEP_2_DIG` em categorias (regiões e Estado respectivamente) para que assim possam ser utilizadas como variáveis pelo modelo:
+Vamos transformaros valores de `DDD` e `CEP_2_DIG` em categorias (regiões e Estado respectivamente) para que assim possam ser utilizadas como variáveis pelo modelo:
 
 ```python
 def regiao(ddd):
@@ -416,7 +416,7 @@ No caso foram removidos 4125 linhas. Uma rápida olhada no box-plot atualizado:
 
 ![box-novo](box-novo.png)
 
-Podemos ver que está mais equilibrado. É necessário criar dummies para as categorias que foram criadas anteriormente para cada variável e excluir as colunas tratadas:
+Podemos ver que está mais equilibrado. É necessário criar *dummies* para as categorias que foram criadas anteriormente para cada variável e excluir as colunas tratadas:
 
 ```python
 colunas_dummy = ['SEGMENTO_INDUSTRIAL', 'PORTE', 'FLAG', 'REGIAO', 'CEP']
@@ -431,6 +431,45 @@ base_treino_sem_outliers.drop(columns=colunas_dummy, inplace=True)
 ### Treinar o modelo
 
 Antes de escolher quais variáveis vamos incluir, podemos olhar a correlação para ter uma ideia do que está mais relacionado com a variável alvo (inadimplência):
+
+```python
+colunas_selecionadas = ['TAXA',
+                        'VALOR_A_PAGAR',
+                        'SEGMENTO_INDUSTRIAL_Comércio',
+                        'SEGMENTO_INDUSTRIAL_Indústria',
+                        'SEGMENTO_INDUSTRIAL_Serviços',
+                        'SEGMENTO_INDUSTRIAL_seg_indefinido',
+                        'PORTE_GRANDE',
+                        'PORTE_MEDIO',
+                        'PORTE_PEQUENO',
+                        'PORTE_indefinido',
+                        'FLAG_PF',
+                        'FLAG_PJ',
+                        'REGIAO_Centro-Oeste',
+                        'REGIAO_DDD inválido',
+                        'REGIAO_Nordeste',
+                        'REGIAO_Norte',
+                        'REGIAO_Sudeste',
+                        'REGIAO_Sul',
+                        'CEP_Bahia ou Sergipe',
+                        'CEP_Interior de São Paulo',
+                        'CEP_Maranhão, Acre, Pará, Amapá, Roraima, Ceará ou Amazonas',
+                        'CEP_Mato Grosso do Sul, Tocantins, Mato Grosso, Goiás, Rondônia ou Distrito Federal',
+                        'CEP_Minas Gerais', 'CEP_Paraná ou Santa Catarina',
+                        'CEP_Pernambuco, Alagoas, Rio Grande do Norte ou Paraíba',
+                        'CEP_Rio Grande do Sul',
+                        'CEP_Rio de Janeiro ou Espírito Santo',
+                        'INADIMPLENTE']
+
+
+df_selecionado = base_treino_sem_outliers[colunas_selecionadas]
+
+matriz_correlacao = df_selecionado.corr()
+
+correlacao_inadimplente = matriz_correlacao['INADIMPLENTE']
+
+print(correlacao_inadimplente.sort_values(ascending=False))
+```
 
 
 <!--

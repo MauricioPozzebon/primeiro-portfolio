@@ -306,7 +306,7 @@ plt.show()
 
 ![Porte](porte.png)
 
-As operações relacionadas com porte indefinido representam apenas 3,2% mas ainda assim podem tender para algum lado (por exemplo, falhas sistemáticas no cadastro). Deve-se avaliar melhor o caso de eliminá-las.Fica claro também que a esmagadora maioria são operações de pessoas jurídicas:
+As operações relacionadas com porte indefinido representam apenas 3,2% mas ainda assim podem tender para algum lado (por exemplo, falhas sistemáticas no cadastro). Deve-se avaliar melhor o caso de eliminá-las. Fica claro também que a esmagadora maioria são operações de pessoas jurídicas:
 
 ```python
 contagem_flag = base_treino['FLAG'].value_counts()
@@ -390,13 +390,13 @@ O número de inadimplentes mostra uma característica clássica desse tipo de pr
 
 ### Pré processamento
 
-De cara optei por elimiar as observações (linhas) com `CEP` não identificado:
+Optei por elimiar as observações (linhas) com `CEP` não identificado:
 
 ```python
 base_treino = base_treino.drop(base_treino[base_treino['CEP'] == 'Região não identificada'].index)
 ```
 
-Excluí os *outliers* pelo critério padrão de box-plot:
+Excluí os *outliers* pelo critério padrão de *box-plot*:
 
 ```python
 Q1 = np.percentile(base_treino['VALOR_A_PAGAR'], 25)
@@ -412,7 +412,7 @@ base_treino_sem_outliers = base_treino.drop(outliers.index)
 numero_outliers = len(outliers)
 print(f"Número de outliers removidos: {numero_outliers}")
 ```
-No caso foram removidos 4125 linhas. Uma rápida olhada no box-plot atualizado:
+No caso foram removidos 4264 linhas. Uma rápida olhada no box-plot atualizado:
 
 ![box-novo](box-novo.png)
 
@@ -428,7 +428,7 @@ base_treino_sem_outliers = pd.concat([base_treino_sem_outliers, dummy_variables]
 base_treino_sem_outliers.drop(columns=colunas_dummy, inplace=True)
 ```
 
-### Treinar o modelo
+### Seleção de variáveis
 
 Antes de escolher quais variáveis vamos incluir, podemos olhar a correlação para ter uma ideia do que está mais relacionado com a variável alvo (inadimplência):
 
@@ -470,7 +470,69 @@ correlacao_inadimplente = matriz_correlacao['INADIMPLENTE']
 
 print(correlacao_inadimplente.sort_values(ascending=False))
 ```
+Infelizmente `PORTE_indefinido` é uma característica com quase 8% de correlação. Analizando essa categoria vemos que ela não possui um padrão, está mais relacionada com duas datas específicas (15/08/2000 e 29/12/2015), ou seja, erros de cadastro[^1]. Assim sendo, escolhi deixar de fora do modelo.
 
+Optei por eliminar variáveis com correlação menor que 0,00%. A lista final de variáveis ficou:
+
+```python
+colunas_selecionadas = ['VALOR_A_PAGAR',
+                        'SEGMENTO_INDUSTRIAL_Comércio',
+                        'SEGMENTO_INDUSTRIAL_Indústria',
+                        'SEGMENTO_INDUSTRIAL_Serviços',
+                        'PORTE_GRANDE',
+                        'PORTE_MEDIO',
+                        'PORTE_PEQUENO',
+                        'REGIAO_Norte',
+                        'REGIAO_Sudeste',
+                        'REGIAO_Sul',
+                        'CEP_Maranhão, Acre, Pará, Amapá, Roraima, Ceará ou Amazonas',
+                        'CEP_Mato Grosso do Sul, Tocantins, Mato Grosso, Goiás, Rondônia ou Distrito Federal',
+                        'CEP_Minas Gerais',
+                        'CEP_Paraná ou Santa Catarina',
+                        'CEP_Pernambuco, Alagoas, Rio Grande do Norte ou Paraíba',
+                        'CEP_Rio Grande do Sul']
+                        
+```
+
+### Treinar o Modelo
+
+Escolhi o modelo XGBClassifier para treinar o algoritmo de classificação e posteriormente utilizá-lo na previsão de inadimplência em operações ainda não vistas:
+
+```python
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+
+X = base_treino_sem_outliers[colunas_selecionadas]
+y = base_treino_sem_outliers['INADIMPLENTE']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+model = xgb.XGBClassifier()
+model.fit(X_train, y_train)
+```
+O desempenho do modelo pode ser aferido pelo *report*:
+
+```python
+from sklearn.metrics import classification_report
+
+report = classification_report(y_test, y_pred)
+print(report)
+```
+
+Em problemas desse tipo é crucial que a classificação da categoria minoritária seja a maior possível, portanto a taxa de acerto global é menos importante. Nesse caso, o modelo acertou 70% dos casos de inadimplência. Esse será o *benchmark* antes de otimizar o modelo.
+
+Também é interessante saber quais as características mais importantes na previsão:
+
+```python
+fi = pd.DataFrame (data = model.feature_importances_,
+                   index=colunas_selecionadas,
+                   columns = ['Importância'])
+fi.sort_values('Importância').plot(kind='barh', title='Importância')
+plt.show()
+```
+![Pesos](importancia.png)
+
+### Otimização
 
 <!--
 > ##### CSS Grid Layout Module
@@ -491,4 +553,5 @@ CSS Grid is a total game changer, IMHO. Compared to the bottomless pit of despai
 
 #### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.-->
 
-[^1]: The original article cited here is now updated and maintained by the staff over at CSS-Tricks. Bookmark their version if you want to dive in and learn about CSS Grid: [A Complete Guide to Grid](https://css-tricks.com/snippets/css/complete-guide-grid/)
+[^1]: Filtrando a `base_treino` em que `base_treino['REGIAO'] == 'DDD inválido'` e aplicando `value_counts()`.
+

@@ -47,11 +47,6 @@ Primeiramente vamos **importar** os módulos já sabendo que se trata de um prob
 ```python
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
-from xgboost import XGBClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import confusion_matrix
 ```
 
 Vamos trabalhar em dois *datasets*, um com informações de cadastro (`base cadastral`) e outro (`base_pagamentos_desenvolvimento`) que utilizaremos para treinar o modelo:
@@ -533,6 +528,15 @@ plt.show()
 ![Pesos](importancia.png)
 
 ### Otimização
+
+Iniciei a otimização do modelo com alterações mais simples, para então depois entrar nos detalhes de estimação (parâmetros). Primeiro, transformei a variável `VALOR_A_PAGAR` aplicando `log`, pois assim a grandeza fica mais próxima dos valores *dummy* de 0 ou 1:
+
+```python
+base_treino_sem_outliers['LOG_PAGAR'] = np.log(base_treino_sem_outliers['VALOR_A_PAGAR'])
+```
+Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark*.
+Tendo em vista que as categorias ainda estão desbalanceadas, testei uma proporção 60/40, ou seja, muito acima de 7% para a categoria alvo:
+
 
 <!--
 > ##### CSS Grid Layout Module

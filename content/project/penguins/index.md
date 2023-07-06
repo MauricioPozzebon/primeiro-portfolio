@@ -16,7 +16,7 @@ links:
 - icon: github
   icon_pack: fab
   name: code
-  url: https://github.com/allisonhorst/palmerpenguins/
+  url: https://github.com/mauriciopozzebon
 
 ---
 <style>body {text-align: justify}</style>
@@ -535,7 +535,28 @@ Iniciei a otimização do modelo com alterações mais simples, para então depo
 base_treino_sem_outliers['LOG_PAGAR'] = np.log(base_treino_sem_outliers['VALOR_A_PAGAR'])
 ```
 Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark*.
-Tendo em vista que as categorias ainda estão desbalanceadas, testei uma proporção 60/40, ou seja, muito acima de 7% para a categoria alvo:
+Tendo em vista que as categorias ainda estão desbalanceadas, testei uma proporção 80/20 para a categoria alvo:
+
+```python
+from imblearn.under_sampling import RandomUnderSampler
+
+# Separar as features (X) e o target (y)
+X = base_treino_sem_outliers.drop('INADIMPLENTE', axis=1)
+y = base_treino_sem_outliers['INADIMPLENTE']
+
+# Criar uma instância do RandomUnderSampler
+rus = RandomUnderSampler(sampling_strategy=0.2)
+
+# Aplicar o undersampling para obter uma proporção de 20% da classe minoritária
+X_resampled, y_resampled = rus.fit_resample(X, y)
+
+# Criar a nova base de dados rebalanceada
+base_rebalanceada = X_resampled.copy()
+base_rebalanceada['INADIMPLENTE'] = y_resampled
+```
+O *report* agora indica uma precisão de **74,3%** para a categoria alvo, apesar de uma diminuição geral da precisão para **90,5%**. Resta testar hiparâmetro diversos para ver se é possível uma aconseguir uma precisão ainda maior que o modelo base.
+
+Teoricamente, as combinações de hiperparâmetros são infinitas, por isso determinei alguns para testar.
 
 
 <!--

@@ -14,10 +14,9 @@ categories:
 # layout options: single or single-sidebar
 layout: single
 ---
-
+<style>body {text-align: justify}</style>
 <!--{{< here >}}-->
 
-![Tachyons Logo Script](tachyons-logo-script.png)
 
 ## Processamento de linguagem natural (NLP) é um dos tópicos mais quentes em aprendizagem de máquina na atualidade.
 
@@ -25,7 +24,7 @@ layout: single
 
 ### NLP e Inteligência Artificial (IA)
 
-Entender o básico de NLP é importante para se aventurar na construção de IA's que entendem a linguagem humana. Pois bem, esse projeto é um modelo de NLP supervisionado que classifica um texto em tópicos pré-estabelecidos e possui **alta precisão.** Graças aos pacotes existentes é possível rodar um modelo python em poucas etapas e código limpo (*clean code*).
+Entender o básico de NLP é importante para se aventurar na construção de IA's que entendem a linguagem humana. Pois bem, esse projeto é um modelo de NLP supervisionado que classifica um texto em tópicos pré-estabelecidos com **alta precisão.** Graças aos pacotes existentes é possível rodar um modelo python em poucas etapas e código limpo (*clean code*).
 
 **Objetivo:** Classificar qualquer texto entre cinco tópicos (BUSINESS, ENTERTAINMENT, POLITICS, SPORT ou TECH).
 

@@ -362,7 +362,7 @@ plt.show()
 ```
 ![cep](cep.png)
 
-Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões). O CEP não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
+Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões). O `CEP` não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
 
 ```python
 contagem_inadimplentes = base_treino['INADIMPLENTE'].value_counts()
@@ -407,7 +407,7 @@ base_treino_sem_outliers = base_treino.drop(outliers.index)
 numero_outliers = len(outliers)
 print(f"Número de outliers removidos: {numero_outliers}")
 ```
-No caso foram removidos 4264 linhas. Uma rápida olhada no box-plot atualizado:
+No caso foram removidos 4264 linhas. Uma rápida olhada no *box-plot* atualizado:
 
 ![box-novo](box-novo.png)
 
@@ -491,7 +491,7 @@ colunas_selecionadas = ['VALOR_A_PAGAR',
 
 ### Treinar o Modelo
 
-Escolhi o modelo XGBClassifier para treinar o algoritmo de classificação e posteriormente utilizá-lo na previsão de inadimplência em operações ainda não vistas:
+Escolhi o modelo `XGBClassifier` para treinar o algoritmo de classificação e posteriormente utilizá-lo na previsão de inadimplência em operações ainda não vistas:
 
 ```python
 import xgboost as xgb

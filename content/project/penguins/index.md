@@ -6,9 +6,10 @@ date: 2023-06-10
 author: "Mauricio Pozzebon"
 draft: false
 tags:
-- hugo-site
+- crédito
+- python
+- machine learning
 categories:
-- Python
 - Machine Learning
 # layout options: single or single-sidebar
 layout: single
@@ -34,7 +35,7 @@ Prever **inadimplência** é um problema clássico nas instituições de crédit
 
 Este projeto desenvolve um modelo de previsão de inadimplência a partir da exploração e engenharia de variáveis de duas *databases* de empréstimos anonimizados. O modelo então é utilizado para prever o *default* em uma lista de clientes **futuros**.
 
-Meu *machine learning pipeline*: importar datasets &#x2192; inspeção &#x2192; preprocessamento &#x2192; análise exploratória &#x2192; modelagem &#x2192; avaliação &#x2192; previsão.
+Meu *machine learning pipeline*: importar datasets &#x2192; inspeção &#x2192; preprocessamento &#x2192; análise exploratória &#x2192; modelagem &#x2192; avaliação &#x2192; otimização &#x2192; previsão.
 
 <!--{{< figure src="css-grid-cover.png" alt="Traditional right sidebar layout" caption="A visual example of the traditional right sidebar layout" >}}-->
 
@@ -534,28 +535,104 @@ Iniciei a otimização do modelo com alterações mais simples, para então depo
 ```python
 base_treino_sem_outliers['LOG_PAGAR'] = np.log(base_treino_sem_outliers['VALOR_A_PAGAR'])
 ```
-Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark* - mantive a alteração. No entanto, a matriz de confusão indica que apenas X% das operações inadimplentes foi prevista corretamente, algo a ser revisto.
-As categorias são desbalanceadas, portanto pode ser interessante utilizar algum método como o `RandomUnderSampler` para diminuir o número de observações maioritárias. Porém, essa reamostragem é aleatória, o quê inviabiliza determinar um único modelo. Nesse caso, aumentei o peso (`scale_pos_weight`) da variável alvo para `5` sem fazer reamostragem:
+Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark*. No entanto, a matriz de confusão indica que apenas 31,4% das operações inadimplentes foi prevista corretamente, algo a ser revisto:
+
+```python
+from sklearn.metrics import confusion_matrix
+
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
+```
+
+As categorias são desbalanceadas, portanto pode ser interessante utilizar algum método como o `RandomUnderSampler` para diminuir o número de observações maioritárias. Porém, essa reamostragem é aleatória, o quê inviabiliza determinar um único modelo. Nesse caso, aumentei o peso (`scale_pos_weight`) da variável alvo para `5` sem fazer reamostragem[^2]:
+
+```python
+model = xgb.XGBClassifier(scale_pos_weight=5)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+report = classification_report(y_test, y_pred, digits = 4)
+print(report)
+```
+
+Veja que agora o modelo classifica corretamente 58,4% dos inadimplentes, ao custo de diminuir a precisão dos adimplentes. A importância de cada variável também é alterada:
 
 
-Veja que agora o modelo classifica corretamente X% dos inadimplentes. Porém, a importância de cada variável também é alterada:
+![pesos](pesos.png)
 
 Nesse caso é necessário o *input* gerencial de qual métrica é mais importante para a operação, já que está diretamente ligada ao faturamento esperado.
 
-Por fim, testei alguns hiperparâmetros visando encontrar equilíbrio entre os os corretamente classificados e os (prováveis) bom pagantes que podem ser incorretamente discriminados como inadimplentes. 
+Por fim, testei alguns hiperparâmetros (`n_estimator`,`max_depth`) visando encontrar equilíbrio entre os os corretamente classificados e os (prováveis) bom pagantes que podem ser incorretamente discriminados como inadimplentes:
 
-O custo desse "equilíbrio" é a redução substancial da precisão para X%. Vejamos as variáveis mais importantes nesse modelo:
+```python
+param_grid = {
+    'n_estimators': [1,5,10,20,50,100],
+    'max_depth': [1,5,10]
+}
+
+for n_estimators in param_grid['n_estimators']:
+    for max_depth in param_grid['max_depth']:
+        model = xgb.XGBClassifier(
+            objective='binary:logistic',
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            scale_pos_weight=5
+        )
+
+        model.fit(X_train, y_train)
+
+        y_pred = model.predict(X_test)
+
+        cm = confusion_matrix(y_test, y_pred)
+
+        print(f"n_estimators={n_estimators}, max_depth={max_depth}")
+        print(cm)
+        print("---------------------------")
+```
+
+No caso, `n_estimators=100` e `max_depth=10` oferece um equilíbrio interessante entre as previsão de classe[^3]. Vejamos as variáveis mais importantes nesse modelo:
 
 Concluindo, temos nossas variáveis chave para avaliação de futuros empréstimos:
 
+- PORTE_MEDIO
+- SEGMENTO_INDUSTRIAL_Serviços
+- CEP_Paraná ou Santa Catarina
+- SEGMENTO_INDUSTRIAL_Indústria
+- PORTE_PEQUENO
+
+Particularmente, as variáveis do modelo apenas com a transformação `LOG_PAGAR` parecem ser mais condizentes com a realidade econômica regional[^4].Mais uma vez, o *input* gerencial será determinante. 
 
 ### Prevendo futuras operações
 
 Finalmente é possível agora aplicar o modelo para prevêr operações de crédito futuras. Primeiro, busquei características na base cadastral tendo como chave `ID_CLIENTE`:
 
+```python
+base_teste = pd.merge(base_pagamentos_teste,base_cadastral,on=['ID_CLIENTE'], how='outer')
+base_teste.drop(base_teste.index[12275:], inplace=True)
+```
+É preciso transformar e excluir colunas (variáveis) de forma que o modelo estimado anteriormente possa ser utilizado na previsão:
+
+```python
+
+```
+
+As futuras operações inadimplentes serão:
 
 
+```python
 
+```
+
+Por fim, identificar o `ID_CLIENTE`:
+
+```python
+
+```
+
+Essa informação poderá ser passada à gerência de tal forma que auxilie na tomada de decisão na operação de crédito pretendida.
+
+Vale lembrar que nenhum modelo é perfeito e sempre deve ser avaliado levando em conta o histórico do negócio e as considerações gerenciais.
 
 
 <!--
@@ -578,4 +655,7 @@ CSS Grid is a total game changer, IMHO. Compared to the bottomless pit of despai
 #### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.-->
 
 [^1]: Filtrando a `base_treino` em que `base_treino['REGIAO'] == 'DDD inválido'` e aplicando `value_counts()`.
+[^2]: O teto seria a categoria majoritária / categoria minoritária, ou seja, 67849/5293 = 12,82. Na prática, é necessário testar em relação à métrica escolhida.
+[^3]: O custo desse "equilíbrio" é a redução substancial de `precision (1)` para 47,1%
+[^4]: 'REGIAO_Norte', 'CEP_Maranhão, Acre, Pará, Amapá, Roraima, Ceará ou Amazonas', 'PORTE_MEDIO', 'SEGMENTO_INDUSTRIAL_Serviços', 'PORTE_PEQUENO'.
 

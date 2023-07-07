@@ -534,29 +534,28 @@ Iniciei a otimização do modelo com alterações mais simples, para então depo
 ```python
 base_treino_sem_outliers['LOG_PAGAR'] = np.log(base_treino_sem_outliers['VALOR_A_PAGAR'])
 ```
-Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark*.
-Tendo em vista que as categorias ainda estão desbalanceadas, testei uma proporção 80/20 para a categoria alvo:
+Rodando novamente o modelo a precisão da variável alvo aumentou para **72%**, acima do *benchmark* - mantive a alteração. No entanto, a matriz de confusão indica que apenas X% das operações inadimplentes foi prevista corretamente, algo a ser revisto.
+As categorias são desbalanceadas, portanto pode ser interessante utilizar algum método como o `RandomUnderSampler` para diminuir o número de observações maioritárias. Porém, essa reamostragem é aleatória, o quê inviabiliza determinar um único modelo. Nesse caso, aumentei o peso (`scale_pos_weight`) da variável alvo para `5` sem fazer reamostragem:
 
-```python
-from imblearn.under_sampling import RandomUnderSampler
 
-# Separar as features (X) e o target (y)
-X = base_treino_sem_outliers.drop('INADIMPLENTE', axis=1)
-y = base_treino_sem_outliers['INADIMPLENTE']
+Veja que agora o modelo classifica corretamente X% dos inadimplentes. Porém, a importância de cada variável também é alterada:
 
-# Criar uma instância do RandomUnderSampler
-rus = RandomUnderSampler(sampling_strategy=0.2)
+Nesse caso é necessário o *input* gerencial de qual métrica é mais importante para a operação, já que está diretamente ligada ao faturamento esperado.
 
-# Aplicar o undersampling para obter uma proporção de 20% da classe minoritária
-X_resampled, y_resampled = rus.fit_resample(X, y)
+Por fim, testei alguns hiperparâmetros visando encontrar equilíbrio entre os os corretamente classificados e os (prováveis) bom pagantes que podem ser incorretamente discriminados como inadimplentes. 
 
-# Criar a nova base de dados rebalanceada
-base_rebalanceada = X_resampled.copy()
-base_rebalanceada['INADIMPLENTE'] = y_resampled
-```
-O *report* agora indica uma precisão de **74,3%** para a categoria alvo, apesar de uma diminuição geral da precisão para **90,5%**. Resta testar hiparâmetro diversos para ver se é possível uma aconseguir uma precisão ainda maior que o modelo base.
+O custo desse "equilíbrio" é a redução substancial da precisão para X%. Vejamos as variáveis mais importantes nesse modelo:
 
-Teoricamente, as combinações de hiperparâmetros são infinitas, por isso determinei alguns para testar.
+Concluindo, temos nossas variáveis chave para avaliação de futuros empréstimos:
+
+
+### Prevendo futuras operações
+
+Finalmente é possível agora aplicar o modelo para prevêr operações de crédito futuras. Primeiro, busquei características na base cadastral tendo como chave `ID_CLIENTE`:
+
+
+
+
 
 
 <!--

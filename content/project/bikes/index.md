@@ -35,7 +35,7 @@ Em breve.
 
 A [API](http://api.citybik.es/v2/) ...
 
-O *pipeline* segue a estrutura clássica: problema &#x2192; dados &#x2192; preprocessamento &#x2192; modelagem &#x2192; avaliação &#x2192; predição (classificação).
+O *pipeline* segue a seguinte estrutura: coleta de dados &#x2192; Delta Lake &#x2192; Superset.
 
 
 ### Código

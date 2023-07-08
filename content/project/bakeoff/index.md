@@ -6,7 +6,7 @@ date: 2023-05-01
 author: "Mauricio Pozzebon"
 draft: false
 tags:
-  - hugo-site
+  - AI
 categories:
   - Python
   - LLM
@@ -15,7 +15,7 @@ links:
 - icon: github
   icon_pack: fab
   name: code
-  url: https://github.com/apreshill/bakeoff
+  url: https://github.com/mauriciopozzebon
 ---
 
 <!--{{< here >}}-->
@@ -26,9 +26,11 @@ links:
 
 ---
 
-### Os LLM's
+### Em Breve
 
-This theme has a **form-to-email** feature built in, thanks to the simple Formspree integration. All you need to activate the form is a valid recipient email address saved in the front matter of the form
+
+
+<!--This theme has a **form-to-email** feature built in, thanks to the simple Formspree integration. All you need to activate the form is a valid recipient email address saved in the front matter of the form
 (`/content/forms/contact.md`). Of course, the example shown below (`your@email.here`) must not be used. Please use your actual email address.
 
 ```toml
@@ -54,8 +56,9 @@ matter, and the rest is automatic.
 layout: split-right
 ```
 
-![Contact Form Split Right Layout Screenshot](built-in-contact-form-screenshot.png)
 
 Both layouts display the page title and description opposite the form, and you
 can also choose to show your social icon links if you have those configured in
-the `config.toml` file.
+the `config.toml` file.-->
+
+

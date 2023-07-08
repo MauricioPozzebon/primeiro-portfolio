@@ -628,7 +628,7 @@ previsao = pd.concat([base_pagamentos_teste['ID_CLIENTE'],
 
 Essa informação poderá ser passada à gerência de tal forma que auxilie na tomada de decisão na operação de crédito pretendida.
 
-Vale lembrar que nenhum modelo é perfeito e sempre deve ser avaliado levando em conta o histórico do negócio e as considerações gerenciais.
+Vale lembrar que nenhum modelo é perfeito e sempre deve ser avaliado levando em conta o histórico do negócio e as considerações gerenciais. &#127919;
 
 
 <!--

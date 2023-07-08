@@ -6,7 +6,6 @@ date: 2023-06-10
 author: "Mauricio Pozzebon"
 draft: false
 tags:
-- crédito
 - python
 - machine learning
 categories:
@@ -230,7 +229,7 @@ plt.title('Número de operações por mês', pad=20)
 ax.set_ylabel(None)
 plt.show()
 ```
-![Operações por mês](mes.png)
+<span style="display:block;text-align:center">![Operações por mês](mes.png)</span>
 
 O número de operações está bem distribuida durante os anos. Em relação às taxas aplicadas, a maioria foi de 5,99 e 6,99%:
 
@@ -247,7 +246,7 @@ plt.legend(contagem_taxa.index, loc='center left', bbox_to_anchor=(1, 0.5))
 
 plt.show()
 ```
-![Taxa](taxas.png)
+<span style="display:block;text-align:center">![Taxa](taxas.png)</span>
 
 Em relação ao valor do empréstimos, o box-plot de `VALOR_A_PAGAR` está muito achatado, indicando que existem valores discrepantes:
 
@@ -267,7 +266,7 @@ plt.show()
 ```
 
 
-![box](box.png)
+<span style="display:block;text-align:center">![box](box.png)</span>
 
 Será necessário tratar os *outliers* posteriormente. Em relação aos segmentos, a maioria está no setor de serviços:
 
@@ -284,7 +283,7 @@ plt.legend(contagem_segmento.index, loc='center left', bbox_to_anchor=(1, 0.5))
 
 plt.show()
 ```
-![Segmento](segmento.png)
+<span style="display:block;text-align:center">![Segmento](segmento.png)</span>
 
 O número de operações efetuadas por em segmentos indefinidos representa apenas 1,8% de tal forma que podemos pensar em eliminá-las da base.Em relação ao porte, temos número similar de empresas de grande e médio porte, e menos pequenas empresas:
 
@@ -300,7 +299,7 @@ plt.legend(contagem_porte.index, loc='center left', bbox_to_anchor=(1, 0.5))
 plt.show()
 ```
 
-![Porte](porte.png)
+<span style="display:block;text-align:center">![Porte](porte.png)</span>
 
 As operações relacionadas com porte indefinido representam apenas 3,2% mas ainda assim podem tender para algum lado (por exemplo, falhas sistemáticas no cadastro). Deve-se avaliar melhor o caso de eliminá-las. Fica claro também que a esmagadora maioria são operações de pessoas jurídicas:
 
@@ -316,7 +315,7 @@ plt.title('PF e PJ')
 plt.legend(contagem_flag.index, loc='center left', bbox_to_anchor=(1, 0.5))
 plt.show()
 ```
-![Flag](pf.png)
+<span style="display:block;text-align:center">![Flag](pf.png)</span>
 
 Ainda que o número de transações seja irrisório, não se pode excluir uma característica tão relevante no mercado de empréstimos. Existe uma ampla predominância da região sudeste, provavelmente pela alta atividade econômica nessa região:
 
@@ -338,7 +337,7 @@ plt.title('Distribuição por Região')
 plt.xlabel('Percentual')
 plt.show()
 ```
-![Região](regiao.png)
+<span style="display:block;text-align:center">![Região](regiao.png)</span>
 
 O `CEP` também pode nos dar noção dos estados com maior número de operações:
 
@@ -361,7 +360,7 @@ for i, v in enumerate(contagem_cep.values):
 
 plt.show()
 ```
-![cep](cep.png)
+<span style="display:block;text-align:center">![cep](cep.png)</span>
 
 Paraná, Santa Catarina, São Paulo e interior concentrar a maior parte das operações (corroborando com as regiões). O `CEP` não identificado é irrisório, por isso podemos eliminá-lo mais a frente. Finalmente, o percentual de operaçoes em *default*:
 
@@ -380,7 +379,7 @@ plt.gca().invert_yaxis()
 plt.show()
 ```
 
-![Número de transações em default](default.png)
+<span style="display:block;text-align:center">![Número de transações em default](default.png)</span>
 
 O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são desbalanceados (muito desproporcionais). É necessário pensar como tratá-los antes de treinar o modelo.
 
@@ -410,7 +409,7 @@ print(f"Número de outliers removidos: {numero_outliers}")
 ```
 No caso foram removidos 4264 linhas. Uma rápida olhada no *box-plot* atualizado:
 
-![box-novo](box-novo.png)
+<span style="display:block;text-align:center">![box-novo](box-novo.png)</span>
 
 Podemos ver que está mais equilibrado. É necessário criar *dummies* para as categorias que foram criadas anteriormente para cada variável e excluir as colunas tratadas:
 
@@ -526,7 +525,7 @@ fi = pd.DataFrame (data = model.feature_importances_,
 fi.sort_values('Importância').plot(kind='barh', title='Importância')
 plt.show()
 ```
-![Pesos](importancia.png)
+<span style="display:block;text-align:center">![Pesos](importancia.png)</span>
 
 ### Otimização
 
@@ -559,7 +558,7 @@ print(report)
 Veja que agora o modelo classifica corretamente 58,4% dos inadimplentes, ao custo de diminuir a precisão dos adimplentes. A importância de cada variável também é alterada:
 
 
-![pesos](pesos.png)
+<span style="display:block;text-align:center">![pesos](pesos.png)</span>
 
 Nesse caso é necessário o *input* gerencial de qual métrica é mais importante para a operação, já que está diretamente ligada ao faturamento esperado.
 
@@ -611,23 +610,20 @@ Finalmente é possível agora aplicar o modelo para prevêr operações de créd
 base_teste = pd.merge(base_pagamentos_teste,base_cadastral,on=['ID_CLIENTE'], how='outer')
 base_teste.drop(base_teste.index[12275:], inplace=True)
 ```
-É preciso transformar e excluir colunas (variáveis) de forma que o modelo estimado anteriormente possa ser utilizado na previsão:
+É preciso transformar e excluir colunas (variáveis) de forma que o modelo estimado anteriormente possa ser utilizado na previsão. Após, aplicar o método `.predict`:
 
 ```python
-
+preds = model.predict(base_teste_final)
 ```
 
-As futuras operações inadimplentes serão:
-
-
-```python
-
-```
-
-Por fim, identificar o `ID_CLIENTE`:
+Por fim, identificar o `ID_CLIENTE` e agregar as informações pertinentes:
 
 ```python
+INADIMPLENTE['INADIMPLENTE'] = pd.DataFrame(preds)
 
+previsao = pd.concat([base_pagamentos_teste['ID_CLIENTE'],
+                      base_pagamentos_teste['SAFRA_REF'],
+                      INADIMPLENTE['INADIMPLENTE']], axis = 1)
 ```
 
 Essa informação poderá ser passada à gerência de tal forma que auxilie na tomada de decisão na operação de crédito pretendida.
@@ -653,6 +649,8 @@ CSS Grid is a total game changer, IMHO. Compared to the bottomless pit of despai
 ```
 
 #### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.-->
+
+
 
 [^1]: Filtrando a `base_treino` em que `base_treino['REGIAO'] == 'DDD inválido'` e aplicando `value_counts()`.
 [^2]: O teto seria a categoria majoritária / categoria minoritária, ou seja, 67849/5293 = 12,82. Na prática, é necessário testar em relação à métrica escolhida.

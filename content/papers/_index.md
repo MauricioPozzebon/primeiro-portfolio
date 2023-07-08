@@ -1,5 +1,5 @@
 ---
-title: <span style="display:block;text-align:center"> Publicações e Congressos </span>
+title: "Publicações e Congressos"
 description: |
   * "Model dependency on customer lifetime value estimation". XXIII SEMEAD – São Paulo, 25 a 27 de novembro de 2020.
   

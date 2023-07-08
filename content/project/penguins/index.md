@@ -285,7 +285,7 @@ plt.show()
 ```
 <span style="display:block;text-align:center">![Segmento](segmento.png)</span>
 
-O número de operações efetuadas por em segmentos indefinidos representa apenas 1,8% de tal forma que podemos pensar em eliminá-las da base.Em relação ao porte, temos número similar de empresas de grande e médio porte, e menos pequenas empresas:
+O número de operações efetuadas por em segmentos indefinidos representa apenas 1,8% de tal forma que podemos pensar em eliminá-las da base. Em relação ao porte, temos número similar de empresas de grande e médio porte, e menos pequenas empresas:
 
 ```python
 contagem_porte = base_treino['PORTE'].value_counts()
@@ -381,7 +381,7 @@ plt.show()
 
 <span style="display:block;text-align:center">![Número de transações em default](default.png)</span>
 
-O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são desbalanceados (muito desproporcionais). É necessário pensar como tratá-los antes de treinar o modelo.
+O número de inadimplentes mostra uma característica clássica desse tipo de problema: a categoria alvo é minora, ou seja, os dados são **desbalanceados** (muito desproporcionais). É necessário pensar como tratá-los antes de treinar o modelo.
 
 ### Pré processamento
 
@@ -529,7 +529,7 @@ plt.show()
 
 ### Otimização
 
-Iniciei a otimização do modelo com alterações mais simples, para então depois entrar nos detalhes de estimação (parâmetros). Primeiro, transformei a variável `VALOR_A_PAGAR` aplicando `log`, pois assim a grandeza fica mais próxima dos valores *dummy* de 0 ou 1:
+Iniciei a otimização do modelo com alterações mais simples, para então depois entrar nos detalhes de estimação (hiperparâmetros). Primeiro, transformei a variável `VALOR_A_PAGAR` aplicando `log`, pois assim a grandeza fica mais próxima dos valores *dummy* de 0 ou 1:
 
 ```python
 base_treino_sem_outliers['LOG_PAGAR'] = np.log(base_treino_sem_outliers['VALOR_A_PAGAR'])
@@ -600,7 +600,7 @@ Concluindo, temos nossas variáveis chave para avaliação de futuros empréstim
 - SEGMENTO_INDUSTRIAL_Indústria
 - PORTE_PEQUENO
 
-Particularmente, as variáveis do modelo apenas com a transformação `LOG_PAGAR` parecem ser mais condizentes com a realidade econômica regional[^4].Mais uma vez, o *input* gerencial será determinante. 
+Particularmente, as variáveis do modelo apenas com a transformação `LOG_PAGAR` parecem ser mais condizentes com a realidade econômica regional[^4]. Mais uma vez, o *input* gerencial será determinante. 
 
 ### Prevendo futuras operações
 
@@ -650,10 +650,7 @@ CSS Grid is a total game changer, IMHO. Compared to the bottomless pit of despai
 
 #### What an amazing time to be a web developer. Anyway, I hope you enjoy this "feature" that you'll probably never notice or even see. Maybe that's the best part of a good user interface – the hidden stuff that just works.-->
 
-
-
 [^1]: Filtrando a `base_treino` em que `base_treino['REGIAO'] == 'DDD inválido'` e aplicando `value_counts()`.
 [^2]: O teto seria a categoria majoritária / categoria minoritária, ou seja, 67849/5293 = 12,82. Na prática, é necessário testar em relação à métrica escolhida.
-[^3]: O custo desse "equilíbrio" é a redução substancial de `precision (1)` para 47,1%
+[^3]: O custo desse "equilíbrio" é a redução substancial de `precision (1)` para 47,1%.
 [^4]: 'REGIAO_Norte', 'CEP_Maranhão, Acre, Pará, Amapá, Roraima, Ceará ou Amazonas', 'PORTE_MEDIO', 'SEGMENTO_INDUSTRIAL_Serviços', 'PORTE_PEQUENO'.
-

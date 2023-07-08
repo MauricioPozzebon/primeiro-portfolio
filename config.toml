@@ -102,19 +102,19 @@ enableEmoji = true
     #weight = 2
   [[menu.header]]
     name = "Projetos"
-    title = "Project Portfolio"
+    title = "Projetos"
     url = "/project/"
     weight = 3
+  #[[menu.header]]
+    #name = "Publicações"
+    #title = "Talks"
+    #url = "/talk/"
+    #weight = 4
   [[menu.header]]
     name = "Publicações"
-    title = "Talks"
-    url = "/talk/"
-    weight = 4
-  [[menu.header]]
-    name = "Papers"
-    title = "Papers"
+    title = "Publicações"
     url = "/papers/"
-    weight = 5
+    weight = 4
     
   # Configure footer  
   [[menu.footer]]

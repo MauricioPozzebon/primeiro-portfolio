@@ -92,41 +92,15 @@ base_cadastral['PORTE'].value_counts()
 Vamos criar uma nova categoria `indefinido`:
 
 ```python
-def substituir_nulos(df):
-    base_cadastral['PORTE'].fillna('indefinido', inplace=True)
-    return base_cadastral
-
-base_cadastral = substituir_nulos(base_cadastral)
+base_cadastral['PORTE'].fillna('indefinido', inplace=True)
 ```
-Apliquei a mesma lógica para `SEGMENTO_INDUSTRIAL`:
+Apliquei a mesma lógica para `SEGMENTO_INDUSTRIAL`, `DDD` e`CEP_2_DIG`:
 
 ```python
-def substituir_nulos(df):
-    base_cadastral['SEGMENTO_INDUSTRIAL'].fillna('seg_indefinido', inplace=True)
-    return base_cadastral
-
-base_cadastral = substituir_nulos(base_cadastral)
+base_cadastral['SEGMENTO_INDUSTRIAL'].fillna('seg_indefinido', inplace=True)
+base_cadastral['DDD'].fillna('ddd_indefinido', inplace=True)
+base_cadastral['CEP_2_DIG'].fillna('cep_indefinido', inplace=True)
 ```
-Da mesma forma, tratamos a coluna `DDD`:
-
-```python
-def substituir_nulos(df):
-    base_cadastral['DDD'].fillna('ddd_indefinido', inplace=True)
-    return base_cadastral
-
-base_cadastral = substituir_nulos(base_cadastral)
-```
-
-Por fim, a coluna `CEP_2_DIG`:
-
-```python
-def substituir_nulos(df):
-    base_cadastral['CEP_2_DIG'].fillna('cep_indefinido', inplace=True)
-    return base_cadastral
-
-base_cadastral = substituir_nulos(base_cadastral)
-```
-
 ### Engenharia de variáveis
 
 Vamos transformaros valores de `DDD` e `CEP_2_DIG` em categorias (regiões e Estado respectivamente) para que assim possam ser utilizadas como variáveis pelo modelo:

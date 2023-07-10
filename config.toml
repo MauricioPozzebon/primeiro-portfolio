@@ -1,4 +1,4 @@
-baseURL = "/"
+baseURL = "https://mauricio-pozzebon.netlify.app/"
 theme = "hugo-apero"
 languageCode = "en"
 title = "Portfolio de Mauricio Pozzebon"

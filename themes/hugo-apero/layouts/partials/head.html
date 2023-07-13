@@ -16,4 +16,5 @@
   <!-- headroom.js -->
   {{ $mainJs := resources.Get "js/main.js" | js.Build "main.js" | minify | fingerprint }}
   <script src="{{ $mainJs.RelPermalink }}" type="text/javascript"></script>
+  {{ if .Site.Params.gtm_id}}{{- partial "gtm.html" . }}{{ end }}
 </head>

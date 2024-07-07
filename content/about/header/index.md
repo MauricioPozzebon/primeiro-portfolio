@@ -22,7 +22,7 @@ headline: |
 **Experiência Profissional**
 
 Engenheiro de Dados @ Autoglass (Setembro/2024 - Atual)
-- <span style="font-size: 15px;">Engenharia de dados com Spark e Airflow, ETL/ELT, Snowflake, Python/Pyspark.
+- <span style="font-size: 15px;">Engenharia de dados com Spark e Airflow, ETL/ELT, Snowflake, Python/Pyspark</span>.
 
 Cientista de Dados @ Brazilstrat (Agosto/2022 - Setembro/2024)
 - <span style="font-size: 15px;">Serviço de ciência de dados para cliente estrangeiro - remoto em inglês. Limpeza, tratamento, análise e predição de dados (machine learning). Linguagem Python com uso de pacotes Pandas, Scikit Learn, Keras, Seaborn, entre outros</span>.

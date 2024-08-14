@@ -27,8 +27,6 @@ links:
 
 ---
 
-### Com Ollama e Stremalit é possível rodar um agente do tipo ChatGPT no seu computador pessoal
-
 Apesar do ChatGPT ser ainda o mais popular e talvez o mais poderoso LLM disponível de forma gratuita, nos últimos meses vimos a explosão de modelos LLM open source e/ou customizados para serem usados de forma doméstica. A biblioteca https://huggingface.co/ possui incríveis 825407 modelos LLM disponíveis. Ainda assim, utilizar os modelos requer um conhecimento python mais específico e muitas vezes uma placa gráfica dedicada com muita memória RAM, o que dificulta o uso doméstica.
 
 No entanto, a ferramenta Ollama (https://ollama.com/) permite rodar os modelos sem escrever uma linha de código nem ter um PC de alto padrão (memória RAM ainda é importante mas sem a necessicade de uma placa gráfica dedicada).
@@ -37,15 +35,19 @@ Esse projeto é um guia rápido para ter um modelo LLM rodando a partir da solu�
 
 ## 1 Instalar Ollama
 
-O primeiro passo é fazer o download e instalar o Ollama (https://ollama.com/download).
+O primeiro passo é fazer o download e instalar o Ollama (https://ollama.com/download). Siga as instruções conforme seu sistema operacional.
 
 ## 2 Rodar o Ollama
 
-Após instalar, abra o terminal e digite `ollama run llama3.1`. O programa fará o pull do modelo Meta Llama 3.1 de 4.7GB e irá iniciá-lo.
+Após instalar, abra o terminal e digite `ollama run llama3.1:8b`. O programa fará *pull* do modelo Meta Llama 3.1 de 4.7GB e irá iniciá-lo.
 
-imagem
+<span style="display:block;text-align:center">![Ollama rodando no terminal](ollama.png)</span>
 
-Você pode interagir com o agente diretamente no terminal, mas veja que assim não é uma forma amigável. Vamos usar o Streamlit para criar um front end mais parecido com o ChatGPT.
+
+Você pode interagir com o agente diretamente no terminal, mas veja que assim não é uma forma amigável. Vamos usar o Streamlit para criar um front-end mais parecido com o ChatGPT.
+
+
+## 3 Criar o front-end
 
 No VSCode, ou outro editor de preferência, faça um arquivo *app.py* com o código a seguir:
 
@@ -103,19 +105,21 @@ if txt := st.chat_input():
 
 Rode o app com o comando `streamlit run app.py` e abra o seu navegador no endereço http://localhost:8501/.
 
-imagem
+<span style="display:block;text-align:center">![streamlit](front-end.png)</span>
+
 
 Vamos testar a resposta do modelo perguntado quem ele é:
 
-imagem
+<span style="display:block;text-align:center">![llama](llama.png)</span>
 
 O modelo está funcionando. Com essa interface é possível, por exemplo, copiar e colar códigos para o agente avaliar, tal como no ChatGPT.
 
-imagem
+<span style="display:block;text-align:center">![exemplo](exemplo.png)</span>
+
 
 É importante escolher um dos modelos Ollama que seu PC suporte, pois ele ocupa memória RAM e usa o processador da própria máquina. Como os modelos tem tamanhos diferentes, vá testando aquele que melhor desempenha tendo em vista o seu setup.
 
-[^1]: Não vou cobrir aqui a instalação das bibliotecas e ativação do ambiente virtual, são tópicos facilmente encontrados nas documentções amplamente disponíveis.
+[^1]: Não vou cobrir aqui a instalação das bibliotecas e ativação do ambiente virtual, são tópicos encontrados nas documentções amplamente disponíveis.
 
 
 <!--This theme has a **form-to-email** feature built in, thanks to the simple Formspree integration. All you need to activate the form is a valid recipient email address saved in the front matter of the form

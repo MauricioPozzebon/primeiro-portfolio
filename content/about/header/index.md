@@ -21,13 +21,16 @@ headline: |
 
 **Experiência Profissional**
 
-Engenheiro de Dados @ Autoglass (Setembro/2024 - Atual)
-- <span style="font-size: 15px;">Engenharia de dados com Spark e Airflow, ETL/ELT, Snowflake, Python/Pyspark</span>.
+Cientista de Dados @ British American Tobacco (Fevereiro/2025 - Atual)
+- <span style="font-size: 15px;"> Discovery em IA. Desenvolvimento de modelos de previsão de características de produtos. Ambiente Azure. 
+
+Engenheiro de Dados @ Autoglass (Setembro/2024 - Fevereiro/2025)
+- <span style="font-size: 15px;">Engenharia de dados com Spark e Airflow, ETL/ELT, Snowflake, Python/Pyspark em ambiente AWS</span>.
 
 Cientista de Dados @ Brazilstrat (Agosto/2022 - Setembro/2024)
 - <span style="font-size: 15px;">Serviço de ciência de dados para cliente estrangeiro - remoto em inglês. Limpeza, tratamento, análise e predição de dados (machine learning). Linguagem Python com uso de pacotes Pandas, Scikit Learn, Keras, Seaborn, entre outros</span>.
  
-Professor Substituto @ UFRGS (Maio/2023 - Atual)
+Professor Substituto @ UFRGS (Maio/2023 - Maio/2024)
 - <span style="font-size: 15px;">Docente na graduação em Adminstração de Empresas da Faculdade de Administração da Universidade Federal do Rio Grande do Sul (EA/UFRGS)</span>.
 
 **Educação**

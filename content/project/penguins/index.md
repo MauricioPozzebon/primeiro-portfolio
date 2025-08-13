@@ -564,7 +564,7 @@ for n_estimators in param_grid['n_estimators']:
         print("---------------------------")
 ```
 
-No caso, `n_estimators=100` e `max_depth=10` oferece um equilíbrio interessante entre as previsão de classe[^3]. Vejamos as variáveis mais importantes nesse modelo:
+No caso, `n_estimators=100` e `max_depth=10` oferece um equilíbrio interessante entre as previsão de classe[^3].
 
 Concluindo, temos nossas variáveis chave para avaliação de futuros empréstimos:
 

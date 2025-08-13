@@ -127,4 +127,4 @@ if prediction_output == 3 :
 if prediction_output == 4 :
   print("A classe é: TECH")
 ```
-Pronto! O próximo passo seria utilizar uma API para colocar o modelo em produção (Flask ou Django por exemplo), e subi-lo em alguma nuvem pública. Discutirei isso num projeto futuro.&#128521; 
+Pronto! O próximo passo seria utilizar uma API para colocar o modelo em produção (Flask ou Django por exemplo), e subi-lo em alguma nuvem pública.&#128521; 

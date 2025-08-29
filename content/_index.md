@@ -1,7 +1,7 @@
 ---
 title: "Mauricio Pozzebon"
 
-subtitle: "Cientista de Dados | Professor de Administração"
+subtitle: "Cientista de Dados | Professor"
 description: "Aqui você encontra uma parte de meus trabalhos e publicações que venho desenvolvendo ao longo dessa jornada em ciência de dados e docência no ensino superior &#x1F4BB;"
 
 date: 2023-06-20T12:18:33-06:00
